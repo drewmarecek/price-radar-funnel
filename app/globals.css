@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --brand-green: #22c55e;
-  --brand-green-dark: #16a34a;
+  /* Premium, high-conversion palette:
+     indigo/blue = brand & trust, green = the single action color. */
+  --brand-blue: #2563eb;
+  --brand-blue-dark: #1d4ed8;
+  --brand-indigo: #4f46e5;
+  --brand-indigo-dark: #4338ca;
+  --brand-green: #16a34a;
+  --brand-green-dark: #15803d;
+
+  --surface: #ffffff;
+  --page: #ffffff;
+  --tint: #f6f8fc; /* clean cool tint for alternating sections */
+  --ink: #0b1220;
+  --ink-soft: #4b5563;
+  --line: #e6e8ec;
 }
 
 html {
@@ -10,53 +23,82 @@ html {
 }
 
 body {
-  background: #e9e9e9;
-  color: #111;
+  background: var(--page);
+  color: var(--ink);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 @theme inline {
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-dark: var(--brand-blue-dark);
+  --color-brand-indigo: var(--brand-indigo);
+  --color-brand-indigo-dark: var(--brand-indigo-dark);
   --color-brand-green: var(--brand-green);
   --color-brand-green-dark: var(--brand-green-dark);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-tint: var(--tint);
 }
 
-/* Diagonal striped progress bar (matches the "Step 1" bar in the funnel) */
-.progress-stripes {
-  background-image: repeating-linear-gradient(
-    45deg,
-    var(--brand-green-dark),
-    var(--brand-green-dark) 14px,
-    var(--brand-green) 14px,
-    var(--brand-green) 28px
+/* Gradient accent for headline emphasis (royal blue -> indigo) */
+.text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--brand-blue) 0%,
+    var(--brand-indigo) 100%
   );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* Subtle cross-hatch texture for the dark CTA band */
-.crosshatch {
-  background-color: #0b0b0b;
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%,
-      transparent 50%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0.03) 75%,
-      transparent 75%, transparent),
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%,
-      transparent 50%, rgba(255, 255, 255, 0.03) 50%, rgba(255, 255, 255, 0.03) 75%,
-      transparent 75%, transparent);
-  background-size: 60px 60px;
+/* Premium hero backdrop: soft indigo/blue glow fading into white,
+   with a whisper-faint dot grid for depth. */
+.hero-bg {
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(
+      72% 55% at 50% -12%,
+      rgba(79, 70, 229, 0.14),
+      transparent 70%
+    ),
+    radial-gradient(
+      42% 40% at 92% 0%,
+      rgba(37, 99, 235, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px);
+  background-size:
+    auto,
+    auto,
+    24px 24px;
 }
 
-@keyframes cta-pulse {
+/* Reusable premium card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  box-shadow:
+    0 1px 2px rgba(11, 18, 32, 0.04),
+    0 10px 30px -14px rgba(11, 18, 32, 0.14);
+}
+
+/* Gentle attention pulse for the primary phone number ring */
+@keyframes soft-ring {
   0%,
   100% {
-    transform: scale(1);
-    box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.5);
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.32);
   }
   50% {
-    transform: scale(1.015);
-    box-shadow: 0 18px 35px -5px rgba(34, 197, 94, 0.65);
+    box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
   }
 }
 
-.cta-pulse {
-  animation: cta-pulse 2.4s ease-in-out infinite;
+.soft-ring {
+  animation: soft-ring 2.4s ease-in-out infinite;
 }
