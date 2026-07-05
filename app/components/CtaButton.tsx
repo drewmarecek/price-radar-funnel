@@ -1,13 +1,10 @@
 "use client";
 
-import { BOOKING_ANCHOR } from "../config";
-import { trackBookingIntent } from "../lib/track";
+import { useBookingModal } from "./BookingModal";
 
 type CtaButtonProps = {
   children: React.ReactNode;
   className?: string;
-  /** Where the button scrolls to. Defaults to the inline calendar section. */
-  targetId?: string;
   variant?: "green" | "blue";
   /** Analytics attribution label for this button's location. */
   source?: string;
@@ -20,27 +17,21 @@ const VARIANTS: Record<NonNullable<CtaButtonProps["variant"]>, string> = {
 };
 
 /**
- * Primary conversion element. Instead of forcing a redirect/modal, it smoothly
- * scrolls the visitor to the inline booking calendar already on the page.
+ * Primary conversion element. Opens the booking modal instantly — no anchor
+ * scrolling (which was causing dead clicks inside mobile webviews).
  */
 export default function CtaButton({
   children,
   className = "",
-  targetId = BOOKING_ANCHOR,
   variant = "green",
   source = "cta",
 }: CtaButtonProps) {
-  const scrollToTarget = () => {
-    trackBookingIntent(source);
-    document
-      .getElementById(targetId)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const { openBookingModal } = useBookingModal();
 
   return (
     <button
       type="button"
-      onClick={scrollToTarget}
+      onClick={() => openBookingModal(source)}
       className={`group inline-flex items-center justify-center gap-2 rounded-xl px-7 py-4 text-base font-semibold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl focus:outline-none focus-visible:ring-4 active:translate-y-0 ${VARIANTS[variant]} ${className}`}
     >
       {children}

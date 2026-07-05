@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import BookingModalProvider from "./components/BookingModal";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <BookingModalProvider>{children}</BookingModalProvider>
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

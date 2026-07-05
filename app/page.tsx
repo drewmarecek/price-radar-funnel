@@ -1,6 +1,5 @@
 import CtaButton from "./components/CtaButton";
 import CallLink from "./components/CallLink";
-import InlineCalendar from "./components/InlineCalendar";
 import ScarcityBadge from "./components/ScarcityBadge";
 import StickyCta from "./components/StickyCta";
 import { PHONE_DISPLAY } from "./config";
@@ -182,8 +181,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ INLINE CALENDAR ============ */}
-      <section id="book" className="scroll-mt-20 bg-white px-5 py-20">
+      {/* ============ BOOKING CTA ============ */}
+      <section className="bg-white px-5 py-20">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
             See how it works — <span className="text-gradient">live.</span>
@@ -193,13 +192,15 @@ export default function Home() {
             you a custom AI agent handling your exact scenarios — no pressure,
             no obligation.
           </p>
-        </div>
 
-        <div className="mx-auto mt-10 max-w-3xl">
-          <InlineCalendar />
+          <div className="mx-auto mt-9 max-w-sm">
+            <CtaButton source="book_section" className="w-full px-8 py-4 text-lg">
+              Book your free 15-min demo
+            </CtaButton>
+          </div>
 
           {/* Micro-trust right at the decision point */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             {["No contract to test it", "100+ businesses live", "Setup done for you"].map(
               (item) => (
                 <span
@@ -225,7 +226,7 @@ export default function Home() {
               ),
             )}
           </div>
-          <p className="mt-4 text-center text-sm text-ink-soft">
+          <p className="mt-6 text-center text-sm text-ink-soft">
             Prefer to talk first? Call Riley at{" "}
             <CallLink
               source="calendar_note"
