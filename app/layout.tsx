@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import BookingModalProvider from "./components/BookingModal";
+import BookingModalProvider from "./components/BookingModalProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useBookingModal } from "./BookingModal";
+import { useBookingModal } from "./BookingModalProvider";
 
 type CtaButtonProps = {
   children: React.ReactNode;

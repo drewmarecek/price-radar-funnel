@@ -2,7 +2,7 @@
 
 import { PHONE_DISPLAY, PHONE_TEL } from "../config";
 import { trackCall } from "../lib/track";
-import { useBookingModal } from "./BookingModal";
+import { useBookingModal } from "./BookingModalProvider";
 
 /**
  * Fixed bottom action bar for mobile. Facebook traffic is overwhelmingly mobile,

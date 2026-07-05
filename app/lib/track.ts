@@ -46,3 +46,11 @@ export function trackBookingIntent(source: string) {
     window.fbq("track", "Schedule", { source });
   }
 }
+
+/** Fire when a visitor submits the Step 1 contact form (lead captured). */
+export function trackLead(params: Params = {}) {
+  track("lead", params);
+  if (typeof window !== "undefined" && typeof window.fbq === "function") {
+    window.fbq("track", "Lead", params);
+  }
+}
