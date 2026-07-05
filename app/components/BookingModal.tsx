@@ -102,6 +102,19 @@ export default function BookingModal() {
       setErrors(nextErrors);
       return;
     }
+
+    const firstName = form.firstName.trim();
+    const lastName = form.lastName.trim();
+    const email = form.email.trim();
+    const phone = form.phone.trim();
+
+    // Fire-and-forget: alert Discord instantly without blocking the calendar.
+    fetch("/api/discord-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ firstName, lastName, email, phone }),
+    }).catch(() => {});
+
     setIframeLoaded(false);
     setStep(2);
   };
