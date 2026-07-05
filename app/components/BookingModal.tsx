@@ -43,19 +43,28 @@ export default function BookingModalProvider({
 
   const closeBookingModal = useCallback(() => setIsBookingModalOpen(false), []);
 
-  // Lock background scroll + close on Escape while the modal is open.
+  // Lock background scroll strictly based on open state.
+  useEffect(() => {
+    if (isBookingModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    // Critical cleanup on unmount
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isBookingModalOpen]);
+
+  // Close on Escape while the modal is open.
   useEffect(() => {
     if (!isBookingModalOpen) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeBookingModal();
     };
     window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [isBookingModalOpen, closeBookingModal]);
 
   return (

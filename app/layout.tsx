@@ -14,6 +14,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Warm up the connection to the GHL booking server before any CTA click */}
+        <link
+          rel="preconnect"
+          href="https://api.leadconnectorhq.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <BookingModalProvider>{children}</BookingModalProvider>
         <Script id="microsoft-clarity" strategy="afterInteractive">
