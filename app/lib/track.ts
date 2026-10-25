@@ -3,10 +3,7 @@
  *
  * Safely no-ops if no tag manager / pixel is installed yet. When you add
  * Google Tag Manager and/or the Meta (Facebook) Pixel, these events will start
- * flowing automatically — critical for retargeting warm traffic from Facebook.
- *
- * To enable the Meta Pixel: add your base pixel snippet in app/layout.tsx, then
- * callers/booking events below map to standard + custom events for audiences.
+ * flowing automatically.
  */
 type Params = Record<string, unknown>;
 
@@ -20,26 +17,23 @@ declare global {
 export function track(event: string, params: Params = {}) {
   if (typeof window === "undefined") return;
 
-  // Google Tag Manager dataLayer
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, ...params });
 
-  // Meta Pixel (custom event) — powers Facebook retargeting audiences
   if (typeof window.fbq === "function") {
     window.fbq("trackCustom", event, params);
   }
 }
 
-/** Fire when a visitor taps the "Call Riley" phone number. */
+/** Fire when a visitor taps the live demo phone number. */
 export function trackCall(source: string) {
   track("call_click", { source });
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
-    // Standard event — builds a "people who tried to contact us" audience
     window.fbq("track", "Contact", { source });
   }
 }
 
-/** Fire when a visitor engages the booking calendar CTA. */
+/** Fire when a visitor engages a pilot / setup CTA. */
 export function trackBookingIntent(source: string) {
   track("booking_intent", { source });
   if (typeof window !== "undefined" && typeof window.fbq === "function") {
@@ -47,7 +41,7 @@ export function trackBookingIntent(source: string) {
   }
 }
 
-/** Fire when a visitor submits the Step 1 contact form (lead captured). */
+/** Fire when a visitor submits the pilot request form. Role only — no phone. */
 export function trackLead(params: Params = {}) {
   track("lead", params);
   if (typeof window !== "undefined" && typeof window.fbq === "function") {

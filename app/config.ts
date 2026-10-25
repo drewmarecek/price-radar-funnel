@@ -1,8 +1,14 @@
-// Central place to configure the GoHighLevel (GHL) 15-minute booking widget.
-// This is the calendar embedded in the booking modal popup.
-export const GHL_BOOKING_URL =
-  "https://api.leadconnectorhq.com/widget/booking/6aMjFGeLk7okV9zajsGo";
+/** Brand, demo line, and contact. Single source of truth for the landing page. */
+export const BRAND_NAME = "AlwaysOnDispatch";
+export const SITE_DOMAIN = "alwaysondispatch.com";
+export const SITE_URL = `https://${SITE_DOMAIN}`;
+export const DEMO_PHONE_DISPLAY = "(207) 555-0199";
+export const DEMO_PHONE_HREF = "tel:+12075550199";
+export const CALENDLY_URL = "#book-trial";
+export const FOUNDER_EMAIL = "drew.marecek@gmail.com";
 
-// Demo / test-drive phone number (single source of truth).
-export const PHONE_TEL = "+16107078630";
-export const PHONE_DISPLAY = "+1 (610) 707-8630";
+/** Hash on the home page; root-relative from Privacy / Terms so the trial section still opens. */
+export function trialHref() {
+  if (CALENDLY_URL.startsWith("#")) return `/${CALENDLY_URL}`;
+  return CALENDLY_URL;
+}

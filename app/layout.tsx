@@ -1,29 +1,66 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Inter, Newsreader } from "next/font/google";
 import Script from "next/script";
-import BookingModalProvider from "./components/BookingModalProvider";
+import { BRAND_NAME, SITE_URL } from "./config";
 import "./globals.css";
 
+const sans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const serif = Newsreader({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const TITLE = `${BRAND_NAME} | After-hours calls that become booked jobs`;
+const DESCRIPTION =
+  "AlwaysOnDispatch answers when the office is closed, makes sure a technician is awake, and sends the job to the software your crew already uses. Built for water restoration, plumbing, HVAC, and the agencies that market them.";
+
 export const metadata: Metadata = {
-  title: "PriceRadarAPI | AI Receptionists That Never Miss a Call",
-  description:
-    "PriceRadarAPI deploys AI receptionists that answer every call, book appointments, and capture leads 24/7 — so you never lose another customer to a missed call.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: `%s | ${BRAND_NAME}`,
+  },
+  description: DESCRIPTION,
+  applicationName: BRAND_NAME,
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: BRAND_NAME,
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <head>
-        {/* Warm up the connection to the GHL booking server before any CTA click */}
-        <link
-          rel="preconnect"
-          href="https://api.leadconnectorhq.com"
-          crossOrigin="anonymous"
-        />
-      </head>
+    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
       <body>
-        <BookingModalProvider>{children}</BookingModalProvider>
+        {children}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`(function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

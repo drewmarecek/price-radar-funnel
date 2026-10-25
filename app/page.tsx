@@ -1,303 +1,349 @@
-import CtaButton from "./components/CtaButton";
 import CallLink from "./components/CallLink";
-import ScarcityBadge from "./components/ScarcityBadge";
-import StickyCta from "./components/StickyCta";
-import { PHONE_DISPLAY } from "./config";
+import FeatureAccordion from "./components/FeatureAccordion";
+import PilotForm, { PilotRoleLink } from "./components/PilotForm";
+import { HeroScene, TryScene, UseScene } from "./components/Scenes";
+import SiteFooter from "./components/SiteFooter";
+import SiteHeader from "./components/SiteHeader";
+import { BRAND_NAME, CALENDLY_URL, DEMO_PHONE_DISPLAY, SITE_DOMAIN } from "./config";
+import { primaryBtn, secondaryBtn } from "./components/styles";
 
-const STATS = [
-  { value: "62%", label: "of calls to local businesses go unanswered" },
-  { value: "85%", label: "of missed callers never call back" },
-  { value: "0", label: "missed calls once Riley is live" },
+const BENEFITS = [
+  {
+    title: "Someone always picks up",
+    body: "24/7 coverage that answers after hours and after four rings — so the homeowner never hits voicemail.",
+    icon: "phone",
+  },
+  {
+    title: "A sleeping tech can't take the job",
+    body: "We call your on-call list and ask them to press 1. A voicemail can't press 1, so the job only goes to someone who is awake.",
+    icon: "awake",
+  },
+  {
+    title: "The homeowner hears back",
+    body: "They get a text that you're on it, so they stop dialing the next company while your tech is still asleep.",
+    icon: "text",
+  },
+  {
+    title: "Keep your existing setup",
+    body: "The address, notes, and a recording show up in the software they already open in the morning. Your daytime receptionist stays.",
+    icon: "tools",
+  },
+] as const;
+
+const USES = [
+  {
+    kind: "water",
+    label: "11:30 PM",
+    title: "Water damage restoration",
+    body: "A flooded basement at 11:30 PM is often a $4,500 job. We take the address, ask if the water is shut off, and get someone moving.",
+  },
+  {
+    kind: "plumbing",
+    label: "Burst pipe",
+    title: "Plumbing",
+    body: "Burst pipes don't wait for morning. The call is answered, and the on-call plumber is actually reached.",
+  },
+  {
+    kind: "hvac",
+    label: "No heat",
+    title: "HVAC",
+    body: "No heat and no air get the same treatment: a person, a street address, and a technician who pressed 1.",
+  },
+  {
+    kind: "agency",
+    label: "Your brand",
+    title: "Marketing agencies",
+    body: "You bring in the calls. When a client lets them die after hours, they blame the leads. This answers under your name.",
+  },
+] as const;
+
+const FAQS = [
+  {
+    q: "What happens to my daytime receptionist?",
+    a: "She stays. This only picks up after 5:00 PM, or after four rings during the day. The number on your trucks and your Google listing does not change.",
+  },
+  {
+    q: "Do my technicians have to download an app?",
+    a: "No. They get a normal phone call. If they're awake, they press 1. If they don't, we call the next person.",
+  },
+  {
+    q: "What if the first person doesn't pick up?",
+    a: "We hang up and call the backup technician, then the owner. A voicemail box can't press 1, so a sleeping phone can't quietly swallow the job.",
+  },
+  {
+    q: "Where does the job go?",
+    a: "Into the system your office already uses — Encircle, Albiware, JobNimbus, ServiceTitan, Housecall Pro, Jobber, QuickBooks Online, or GoHighLevel — along with the address, notes, and a recording.",
+  },
+  {
+    q: "Can an agency offer this under their own name?",
+    a: "Yes. You can run it on one client for 14 days at no charge, then roll it out to the rest of the book at a flat wholesale rate.",
+  },
+  {
+    q: "What does the 14-day trial cost?",
+    a: "Nothing, if the night calls aren't handled cleanly. Contractors try it on the line they already publish. Agencies try it on one client.",
+  },
+  {
+    q: "Are calls recorded?",
+    a: "Yes. Callers hear a recording notice where one is required, and you can listen back to what was said.",
+  },
+  {
+    q: "Is this a replacement for 911?",
+    a: "No. It books your after-hours jobs. It does not dispatch police, fire, or an ambulance.",
+  },
 ];
 
-const TESTIMONIALS = [
-  {
-    initials: "MR",
-    name: "Mike R.",
-    role: "Owner, Roofing Co.",
-    accent: "bg-blue-600",
-    quote:
-      "We set it up on a Thursday and it booked two jobs over the weekend — calls we would've completely missed.",
-  },
-  {
-    initials: "JC",
-    name: "James Carter",
-    role: "Home Services",
-    accent: "bg-indigo-600",
-    quote:
-      "All I can say is WOW. I just got off the phone with my AI demo and it sounded more professional than half my team.",
-  },
-  {
-    initials: "SJ",
-    name: "Sarah J.",
-    role: "HVAC, Operations Lead",
-    accent: "bg-emerald-600",
-    quote:
-      "We stopped bleeding leads overnight — literally. Three after-hours bookings the first night. It pays for itself.",
-  },
-  {
-    initials: "DT",
-    name: "Dominic T.",
-    role: "Plumbing, Franchise Owner",
-    accent: "bg-sky-600",
-    quote:
-      "Setup was done-for-us and Riley never misses. Our missed-call rate went from ~30% to basically zero.",
-  },
-];
-
-function StarRow() {
+function Eyebrow({
+  children,
+  light = false,
+  align = "center",
+}: {
+  children: React.ReactNode;
+  light?: boolean;
+  align?: "center" | "start";
+}) {
   return (
-    <div className="flex gap-0.5 text-amber-400" aria-hidden>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
-          <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
-        </svg>
-      ))}
-    </div>
+    <p className={`flex items-center gap-2 text-sm font-medium ${align === "start" ? "justify-start" : "justify-center"} ${light ? "text-[#b4d0f8]" : "text-[#0B5CFF]"}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${light ? "bg-[#b4d0f8]" : "bg-[#0B5CFF]"}`} aria-hidden />
+      {children}
+    </p>
   );
 }
 
-export default function Home() {
+function BenefitIcon({ name }: { name: (typeof BENEFITS)[number]["icon"] }) {
+  const common = "h-10 w-10 text-[#0B5CFF]";
+  if (name === "phone") {
+    return (
+      <svg className={common} viewBox="0 0 40 40" fill="none" aria-hidden>
+        <path d="M14 8h4l2 5-3 2a12 12 0 0 0 6 6l2-3 5 2v4c0 1-1 2-2 2C16 26 8 18 8 10c0-1 1-2 2-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (name === "awake") {
+    return (
+      <svg className={common} viewBox="0 0 40 40" fill="none" aria-hidden>
+        <circle cx="20" cy="20" r="6" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M20 8v3M20 29v3M8 20h3M29 20h3M11 11l2 2M27 27l2 2M29 11l-2 2M13 27l-2 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (name === "text") {
+    return (
+      <svg className={common} viewBox="0 0 40 40" fill="none" aria-hidden>
+        <rect x="8" y="10" width="24" height="16" rx="3" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M14 26v4l5-4" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      </svg>
+    );
+  }
   return (
-    <main className="min-h-screen bg-page pb-16 text-ink sm:pb-0">
-      {/* ============ HEADER ============ */}
-      <header className="sticky top-0 z-40 border-b border-line bg-white/85 shadow-sm backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
-          <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-brand-indigo to-brand-blue text-sm font-black text-white shadow-sm">
-              P
-            </span>
-            <span className="text-lg tracking-tight text-ink">
-              <span className="font-extrabold">PriceRadar</span>
-              <span className="font-extrabold text-brand-blue">API</span>
-            </span>
-          </div>
-          <CtaButton
-            source="header"
-            className="hidden px-5 py-2.5 text-sm hover:scale-105 sm:inline-flex"
-          >
-            Book a free call
-          </CtaButton>
-        </div>
-      </header>
+    <svg className={common} viewBox="0 0 40 40" fill="none" aria-hidden>
+      <rect x="8" y="10" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="22" y="10" width="10" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="8" y="22" width="10" height="8" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="22" y="22" width="10" height="8" rx="2" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
 
-      {/* ============ HERO ============ */}
-      <section className="hero-bg px-5 pt-14 pb-12 sm:pt-20">
-        <div className="mx-auto max-w-3xl text-center">
-          {/* Pill badge */}
-          <span className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50/70 px-4 py-1.5 text-sm font-semibold text-brand-blue">
-            <span aria-hidden>✨</span> Modern AI Voice Engine
-          </span>
+function Check({ light = false }: { light?: boolean }) {
+  return (
+    <svg className={`mt-0.5 h-4 w-4 shrink-0 ${light ? "text-white" : "text-[#0B5CFF]"}`} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M3 8.5 6.2 12 13 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
-          <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-6xl">
-            Stop losing revenue to missed calls.
-            <span className="mt-2 block text-gradient">
-              Our AI Agent answers &amp; books jobs 24/7.
-            </span>
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-soft">
-            Every missed call is a customer handing money to your competitor.
-            PriceRadarAPI answers instantly, sounds human, and books the job
-            straight onto your calendar — day or night.
-          </p>
-
-          <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <CtaButton source="hero" className="px-8 py-4 text-base sm:text-lg">
-              Book your free 15-min demo
-            </CtaButton>
-            <CallLink
-              source="hero"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white px-8 py-4 text-base font-semibold text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md sm:text-lg"
-            >
-              <span aria-hidden>📞</span> Call Riley live now
-            </CallLink>
-          </div>
-
-          <div className="mt-6">
-            <ScarcityBadge />
-          </div>
-        </div>
-
-        {/* ============ PREMIUM LIVE DEMO WIDGET CARD ============ */}
-        <div className="mx-auto mt-12 max-w-xl">
-          <div className="card rounded-3xl bg-blue-50/40 p-7 sm:p-8">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold tracking-wide text-ink-soft uppercase">
-                Test the AI Right Now
-              </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
-                Live 24/7/365
-              </span>
-            </div>
-
-            <p className="mt-3 text-lg font-bold text-ink">
-              Call Riley Live — talk to the AI yourself
+export default function HomePage() {
+  return (
+    <>
+      <SiteHeader />
+      <main id="main">
+        <section className="page-pad pt-[clamp(2rem,6vw,5rem)] pb-6">
+          <div className="mx-auto w-full max-w-[min(56rem,100%)] text-center">
+            <Eyebrow>{BRAND_NAME}</Eyebrow>
+            <p className="mt-3 text-sm text-[#5c6b8a]">{SITE_DOMAIN}</p>
+            <h1 className="display mx-auto mt-4 max-w-[min(52rem,100%)] text-[clamp(2rem,4.2vw,3.125rem)] leading-[1.2] text-[#00031F]">
+              An after-hours line that turns
+              <br className="hidden sm:block" />{" "}
+              emergency calls into booked jobs.
+            </h1>
+            <p className="mx-auto mt-5 max-w-[min(52rem,100%)] text-[0.9375rem] leading-[1.6] text-[#00053D] sm:mt-6 sm:text-base sm:leading-[1.65]">
+              <span className="font-medium text-[#0B5CFF]">{BRAND_NAME}</span> answers when
+              the office is closed, makes sure a technician is actually awake,
+              <br className="hidden lg:block" />{" "}
+              and sends the job to the software your crew already uses. Keep your daytime
+              receptionist.
             </p>
-            <p className="mt-1 text-sm text-ink-soft">
-              Ask her hard questions, try to interrupt her, and watch her take a
-              message &amp; book an appointment in real time.
-            </p>
-
-            <CallLink
-              source="demo_card"
-              className="soft-ring mt-6 flex items-center justify-center rounded-xl border border-blue-200 bg-blue-50/60 px-6 py-5 text-center transition-colors hover:bg-blue-50"
-            >
-              <span className="text-3xl font-black tracking-tight text-brand-blue sm:text-4xl">
-                {PHONE_DISPLAY}
-              </span>
-            </CallLink>
-
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs font-semibold text-brand-green">
-              <span>✓ Answers on ring one</span>
-              <span>✓ Books to your calendar</span>
-              <span>✓ Never sleeps</span>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 sm:mt-8 sm:gap-3">
+              <a href={CALENDLY_URL} className={primaryBtn}>
+                Start a free trial
+              </a>
+              <CallLink
+                source="hero"
+                ariaLabel={`Call the live line at ${DEMO_PHONE_DISPLAY}`}
+                className={secondaryBtn}
+              >
+                Call {DEMO_PHONE_DISPLAY}
+              </CallLink>
             </div>
           </div>
-        </div>
-      </section>
+          <div className="mx-auto mt-12 w-full max-w-[min(920px,100%)] sm:mt-16">
+            <HeroScene />
+          </div>
+        </section>
 
-      {/* ============ PAIN / VALUE STAT BAR ============ */}
-      <section className="border-y border-line bg-tint px-5 py-12">
-        <div className="mx-auto max-w-4xl">
-          <p className="text-center text-sm font-semibold tracking-wide text-ink-soft uppercase">
-            The cost of a missed call
-          </p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            {STATS.map((s) => (
-              <div key={s.label} className="card p-6 text-center">
-                <div className="text-4xl font-extrabold tracking-tight text-gradient">
-                  {s.value}
+        <section className="page-pad py-[clamp(3rem,6vw,5rem)]">
+          <div className="mx-auto grid w-full max-w-[min(1218px,100%)] gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
+            {BENEFITS.map((item) => (
+              <article key={item.title} className="text-center sm:text-left">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e6f0ff] sm:mx-0">
+                  <BenefitIcon name={item.icon} />
                 </div>
-                <p className="mt-2 text-sm text-ink-soft">{s.label}</p>
-              </div>
+                <h2 className="display mt-4 text-[clamp(1.4rem,2vw,1.75rem)] leading-[1.15] text-[#00031F]">
+                  {item.title}
+                </h2>
+                <p className="mx-auto mt-3 max-w-[22rem] text-[0.9375rem] leading-[1.6] text-[#00053D] sm:mx-0 sm:max-w-none sm:text-base sm:leading-[1.65]">
+                  {item.body}
+                </p>
+              </article>
             ))}
           </div>
-          <p className="mt-4 text-center text-xs text-ink-soft">
-            Industry averages for local service businesses. Your competitors are
-            already answering.
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* ============ BOOKING CTA ============ */}
-      <section className="bg-white px-5 py-20">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-            See how it works — <span className="text-gradient">live.</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-ink-soft">
-            Grab a free 15-minute demo. We&apos;ll map your call flow and show
-            you a custom AI agent handling your exact scenarios — no pressure,
-            no obligation.
-          </p>
-
-          <div className="mx-auto mt-9 max-w-sm">
-            <CtaButton source="book_section" className="w-full px-8 py-4 text-lg">
-              Book your free 15-min demo
-            </CtaButton>
+        <section id="try" className="anchor page-pad bg-[#181819] py-[clamp(3rem,6vw,5rem)] text-white">
+          <div className="mx-auto grid w-full max-w-[min(1200px,100%)] items-center gap-10 lg:grid-cols-2">
+            <TryScene />
+            <div>
+              <Eyebrow light align="start">Try it yourself</Eyebrow>
+              <h2 className="display mt-3 text-left text-[clamp(1.75rem,3vw,2.4rem)] leading-tight">
+                Pretend a pipe just burst.
+              </h2>
+              <CallLink
+                source="try"
+                ariaLabel={`Call ${DEMO_PHONE_DISPLAY}`}
+                className={`${primaryBtn} mt-6`}
+              >
+                Call {DEMO_PHONE_DISPLAY}
+              </CallLink>
+            </div>
           </div>
+        </section>
 
-          {/* Micro-trust right at the decision point */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            {["No contract to test it", "100+ businesses live", "Setup done for you"].map(
-              (item) => (
-                <span
-                  key={item}
-                  className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold text-ink shadow-sm"
-                >
-                  <span className="grid h-5 w-5 place-items-center rounded-full bg-brand-green/10 text-brand-green">
-                    <svg
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="h-3.5 w-3.5"
-                      aria-hidden
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.3 3.3 6.8-6.8a1 1 0 0 1 1.4 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  {item}
-                </span>
-              ),
-            )}
+        <section id="who" className="anchor page-pad py-[clamp(3rem,7vw,6rem)]">
+          <div className="mx-auto w-full max-w-[min(1360px,100%)]">
+            <div className="mx-auto max-w-[min(920px,100%)] text-center">
+              <Eyebrow>Who it&apos;s for</Eyebrow>
+              <h2 className="display section-title mt-3 text-[#00031F]">
+                Built for calls that can&apos;t wait until morning
+              </h2>
+            </div>
+            <ul className="scroll-row -mx-[clamp(1.25rem,4vw,2rem)] mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-[clamp(1.25rem,4vw,2rem)] px-[clamp(1.25rem,4vw,2rem)] pb-2 sm:mx-0 sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-8 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4">
+              {USES.map((item) => (
+                <li key={item.title} className="w-[78%] shrink-0 snap-start sm:w-auto">
+                  <UseScene kind={item.kind} label={item.label} />
+                  <h3 className="mt-4 text-lg font-semibold text-[#00031F]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#00053D]">{item.body}</p>
+                </li>
+              ))}
+            </ul>
           </div>
-          <p className="mt-6 text-center text-sm text-ink-soft">
-            Prefer to talk first? Call Riley at{" "}
-            <CallLink
-              source="calendar_note"
-              className="font-semibold text-brand-blue hover:underline"
-            >
-              {PHONE_DISPLAY}
-            </CallLink>
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* ============ SOCIAL PROOF ============ */}
-      <section className="border-t border-line bg-tint px-5 py-20">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-1.5 text-sm font-semibold text-ink-soft">
-            Loved by service businesses
-          </span>
-          <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
-            What owners say after going live
-          </h2>
-        </div>
+        <section id="how-it-works" className="anchor page-pad py-[clamp(3rem,7vw,6rem)]">
+          <div className="mx-auto w-full max-w-[min(1200px,100%)]">
+            <div className="mx-auto max-w-[min(920px,100%)] text-center">
+              <Eyebrow>How it works</Eyebrow>
+              <h2 className="display section-title mt-3 text-[#00031F]">
+                It knows the job, not just a phone menu
+              </h2>
+            </div>
+            <FeatureAccordion />
+          </div>
+        </section>
 
-        <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-2">
-          {TESTIMONIALS.map((t) => (
-            <figure
-              key={t.name}
-              className="card flex flex-col gap-4 p-6 transition-shadow duration-200 hover:shadow-lg"
-            >
-              <StarRow />
-              <blockquote className="text-[15px] leading-relaxed text-ink">
-                “{t.quote}”
-              </blockquote>
-              <figcaption className="mt-auto flex items-center gap-3 border-t border-line pt-4">
-                <span
-                  className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-sm font-bold text-white ${t.accent}`}
-                >
-                  {t.initials}
-                </span>
-                <span className="text-left">
-                  <span className="block text-sm font-semibold text-ink">
-                    {t.name}
-                  </span>
-                  <span className="block text-xs text-ink-soft">{t.role}</span>
-                </span>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <section id="book-trial" className="anchor page-pad py-[clamp(3rem,7vw,6rem)]">
+          <div className="mx-auto w-full max-w-[min(1100px,100%)]">
+            <div className="mx-auto max-w-[min(760px,100%)] text-center">
+              <Eyebrow>Pricing</Eyebrow>
+              <h2 className="display section-title mt-3 text-[#00031F]">
+                Start with 14 days
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-[#00053D]">
+                If the night calls aren&apos;t handled cleanly, you don&apos;t pay.
+              </p>
+            </div>
+            <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-2">
+              <article id="contractors" className="overflow-hidden rounded-2xl bg-[#e6f0ff]">
+                <p className="bg-[#00053D] px-6 py-3 text-center text-sm font-medium text-white">
+                  For contractors
+                </p>
+                <div className="p-6 sm:p-8">
+                  <p className="text-sm font-medium text-[#00053D]">14-day trial</p>
+                  <p className="display mt-2 text-[clamp(3rem,8vw,3.75rem)] text-[#00031F]">$0</p>
+                  <p className="mt-2 text-sm text-[#00053D]">
+                    if the night calls aren&apos;t handled cleanly
+                  </p>
+                  <PilotRoleLink role="contractor" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#00053D] px-5 py-2 text-base font-semibold text-white hover:bg-[#12183a]">
+                    Start the contractor trial
+                  </PilotRoleLink>
+                  <ul className="mt-8 space-y-3 text-sm leading-relaxed text-[#00053D]">
+                    <li className="flex gap-2"><Check /> 14 days on the line you already advertise.</li>
+                    <li className="flex gap-2"><Check /> Turns on after 5:00 PM, or after four rings.</li>
+                    <li className="flex gap-2"><Check /> Your daytime receptionist stays on the main number.</li>
+                  </ul>
+                </div>
+              </article>
 
-        <div className="mx-auto mt-12 max-w-md text-center">
-          <CtaButton source="social_proof" className="w-full px-8 py-4 text-lg">
-            Book my free 15-min demo
-          </CtaButton>
-        </div>
-      </section>
+              <article id="agencies" className="anchor overflow-hidden rounded-2xl bg-[#0B5CFF] text-white">
+                <p className="bg-[#00053D] px-6 py-3 text-center text-sm font-medium">
+                  For agencies
+                </p>
+                <div className="p-6 sm:p-8">
+                  <p className="text-sm font-medium text-white/90">One client, under your brand</p>
+                  <p className="display mt-2 text-[clamp(3rem,8vw,3.75rem)]">$0</p>
+                  <p className="mt-2 text-sm text-white/90">
+                    for 14 days, then a flat wholesale rate
+                  </p>
+                  <PilotRoleLink role="agency" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-5 py-2 text-base font-semibold text-[#00053D]">
+                    Try it on one client
+                  </PilotRoleLink>
+                  <ul className="mt-8 space-y-3 text-sm leading-relaxed text-white">
+                    <li className="flex gap-2"><Check light /> Your name on the greeting. Their office stays as it is.</li>
+                    <li className="flex gap-2"><Check light /> One client, 14 days, at no charge.</li>
+                    <li className="flex gap-2"><Check light /> After that, you set the retail price.</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+            <div className="mx-auto mt-10 max-w-[min(560px,100%)]">
+              <PilotForm />
+            </div>
+          </div>
+        </section>
 
-      {/* ============ FOOTER ============ */}
-      <footer className="border-t border-line bg-white px-5 py-10 text-center">
-        <p className="text-base font-bold tracking-tight text-ink">
-          PriceRadar<span className="text-brand-blue">API</span>
-        </p>
-        <p className="mt-2 text-sm text-ink-soft">
-          AI receptionists that answer every call and book every job — 24/7.
-        </p>
-        <p className="mt-4 text-xs text-ink-soft">
-          &copy; {new Date().getFullYear()} PriceRadarAPI. All rights reserved.
-        </p>
-      </footer>
-
-      {/* Sticky mobile action bar */}
-      <StickyCta />
-    </main>
+        <section id="faq" className="anchor page-pad bg-[#f7f9fc] py-[clamp(3rem,7vw,6rem)]">
+          <div className="mx-auto w-full max-w-[min(920px,100%)]">
+            <div className="text-center">
+              <Eyebrow>FAQs</Eyebrow>
+              <h2 className="display section-title mt-3 text-[#00031F]">
+                Questions
+              </h2>
+            </div>
+            <div className="mt-10">
+              {FAQS.map((item) => (
+                <details key={item.q} className="group border-b border-[#e1e8f2] py-4">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-[#00053D]">
+                    {item.q}
+                    <span aria-hidden className="text-xl font-normal text-[#0B5CFF] group-open:hidden">+</span>
+                    <span aria-hidden className="hidden text-xl font-normal text-[#0B5CFF] group-open:inline">–</span>
+                  </summary>
+                  <p className="mt-3 max-w-[68ch] text-sm leading-relaxed text-[#00053D]">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
