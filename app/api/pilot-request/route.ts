@@ -51,35 +51,26 @@ export async function POST(req: Request) {
   }
 
   const webhookUrl = process.env.DISCORD_LEAD_WEBHOOK_URL;
-  if (!webhookUrl) {
-    return NextResponse.json(
-      { ok: false, reason: "unconfigured" },
-      { status: 503 },
-    );
-  }
-
-  try {
-    const discord = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      signal: AbortSignal.timeout(8000),
-      body: JSON.stringify({
-        content: [
-          "New 14-day trial request",
-          `Name: ${lead.name}`,
-          `Company: ${lead.company}`,
-          `Cell: ${lead.phone}`,
-          `Role: ${lead.roleLabel}`,
-        ].join("\n"),
-      }),
-    });
-
-    if (!discord.ok) {
-      return NextResponse.json({ ok: false }, { status: 502 });
+  if (webhookUrl) {
+    try {
+      await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(8000),
+        body: JSON.stringify({
+          content: [
+            "New 14-day trial request",
+            `Name: ${lead.name}`,
+            `Company: ${lead.company}`,
+            `Cell: ${lead.phone}`,
+            `Role: ${lead.roleLabel}`,
+          ].join("\n"),
+        }),
+      });
+    } catch {
+      // The email send is what the visitor is waiting on.
     }
-
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ ok: false }, { status: 502 });
   }
+
+  return NextResponse.json({ ok: true });
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
-import { BRAND_NAME, FOUNDER_EMAIL, SITE_DOMAIN } from "../config";
+import { BRAND_NAME, FOUNDER_EMAIL } from "../config";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -17,9 +17,9 @@ export default function PrivacyPage() {
         <p className="mt-2 text-sm text-[#5c564c]">Last updated October 19, 2026</p>
         <div className="mt-8 space-y-4 text-sm leading-relaxed text-[#3f3a33]">
           <p>
-            {BRAND_NAME} ({SITE_DOMAIN}) is after-hours and overflow emergency dispatch
-            infrastructure engineered in the United States (Maine and Utah). This page
-            describes what the public website collects.
+            {BRAND_NAME} is after-hours and overflow emergency dispatch infrastructure
+            engineered in the United States (Maine and Utah). This page describes what
+            the public website collects.
           </p>
           <h2 className="pt-2 font-semibold tracking-tight text-xl text-[#1c1917]">Trial request form</h2>
           <p>

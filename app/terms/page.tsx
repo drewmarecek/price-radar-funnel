@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import SiteFooter from "../components/SiteFooter";
 import SiteHeader from "../components/SiteHeader";
-import { BRAND_NAME, FOUNDER_EMAIL, SITE_DOMAIN } from "../config";
+import { BRAND_NAME, FOUNDER_EMAIL } from "../config";
 
 export const metadata: Metadata = {
   title: "Terms",
@@ -17,19 +17,19 @@ export default function TermsPage() {
         <p className="mt-2 text-sm text-[#5c564c]">Last updated October 19, 2026</p>
         <div className="mt-8 space-y-4 text-sm leading-relaxed text-[#3f3a33]">
           <p>
-            {BRAND_NAME} ({SITE_DOMAIN}) provides after-hours and 4-ring overflow
-            emergency dispatch infrastructure. Calling the demo number or submitting the
-            trial form is a request to evaluate that service. It is not a contract for a
-            paid seat.
+            {BRAND_NAME} provides after-hours and 4-ring overflow emergency dispatch
+            infrastructure. Calling the demo number or submitting the trial form is a
+            request to evaluate that service. It is not a contract for a paid seat.
           </p>
           <h2 className="pt-2 font-semibold tracking-tight text-xl text-[#1c1917]">14-day trial</h2>
           <p>
-            The contractor trial leaves the published main number and daytime staff in
+            The contractor pilot leaves the published main number and daytime staff in
             place and turns on with conditional call forwarding after 5:00 PM or after
-            4 unanswered rings. If the trial does not capture and dispatch after-hours
-            calls cleanly during those 14 days, there is no charge. The agency trial
-            covers one flagship client for 14 days at $0 wholesale cost. Any paid
-            seat after the trial is agreed in writing, including the per-seat rate.
+            4 unanswered rings. The price after a successful pilot is $397 a month. If
+            the pilot does not catch a job during those 14 days, that charge is refunded
+            in full. The agency pilot covers one flagship client for 14 days at no risk.
+            After that, agency seats are $247 a month per client, and the agency sets
+            the retail price. Any paid seat is agreed in writing.
           </p>
           <h2 className="pt-2 font-semibold tracking-tight text-xl text-[#1c1917]">Calls and recording</h2>
           <p>

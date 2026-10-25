@@ -113,30 +113,57 @@ export default function PilotForm() {
     }
 
     setStatus("sending");
+    const roleLabel = role === "agency" ? "Marketing Agency" : "Contractor";
+    const payload = {
+      name: name.trim(),
+      company: company.trim(),
+      phone: phone.trim(),
+      role,
+    };
+    const summary = [
+      `Name: ${payload.name}`,
+      `Company: ${payload.company}`,
+      `Cell: ${payload.phone}`,
+      `Role: ${roleLabel}`,
+    ].join("\n");
+
     try {
-      const res = await fetch("/api/pilot-request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          company: company.trim(),
-          phone: phone.trim(),
-          role,
+      const [emailRes] = await Promise.all([
+        fetch(`https://formsubmit.co/ajax/${encodeURIComponent(FOUNDER_EMAIL)}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            _subject: `14-day trial request — ${payload.company}`,
+            _template: "table",
+            _captcha: "false",
+            name: payload.name,
+            company: payload.company,
+            phone: payload.phone,
+            role: roleLabel,
+            message: summary,
+          }),
         }),
-      });
+        fetch("/api/pilot-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }),
+      ]);
 
-      if (res.ok) {
-        trackLead({ role, source: "pilot_form" });
-        setStatus("sent");
+      const emailData = (await emailRes.json().catch(() => null)) as {
+        success?: string | boolean;
+      } | null;
+      const emailed = emailData?.success === true || emailData?.success === "true";
+      if (!emailed) {
+        setStatus("email");
         return;
       }
 
-      if (res.status === 400) {
-        setStatus("invalid");
-        return;
-      }
-
-      setStatus("email");
+      trackLead({ role, source: "pilot_form" });
+      setStatus("sent");
     } catch {
       setStatus("email");
     }
@@ -227,7 +254,7 @@ export default function PilotForm() {
             autoComplete="tel"
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
-            placeholder="(207) 555-0148"
+            placeholder="207-555-0148"
             maxLength={40}
             aria-invalid={errors.phone ? true : undefined}
             aria-describedby={errors.phone ? "pilot-phone-error" : undefined}
@@ -285,8 +312,8 @@ export default function PilotForm() {
       {status === "email" && (
         <div role="status" className="mt-4 rounded-lg border border-[#e6e8eb] bg-[#f5f8fc] p-3">
           <p className="text-sm leading-relaxed text-[#3c4450]">
-            This page isn&apos;t connected to the inbox yet. Email the same request
-            and include your cell so we can confirm the trial.
+            That didn&apos;t reach the inbox. Email the same request and include
+            your cell so we can confirm the trial.
           </p>
           <a href={mailtoHref()} className={`${secondaryMailClass} mt-3`}>
             Email {FOUNDER_EMAIL}

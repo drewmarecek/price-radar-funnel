@@ -73,8 +73,59 @@ summary::-webkit-details-marker {
   display: none;
 }
 
+.pulse-dot {
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: #b9d6ff;
+  box-shadow: 0 0 0 0 rgba(185, 214, 255, 0.85);
+  animation: dot-pulse 1.8s ease-out infinite;
+}
+
+@keyframes dot-pulse {
+  0% {
+    background: #8ebcff;
+    box-shadow: 0 0 0 0 rgba(185, 214, 255, 0.75);
+  }
+  70% {
+    background: #e7f1ff;
+    box-shadow: 0 0 0 7px rgba(185, 214, 255, 0);
+  }
+  100% {
+    background: #8ebcff;
+    box-shadow: 0 0 0 0 rgba(185, 214, 255, 0);
+  }
+}
+
+.typing-caret {
+  display: inline-block;
+  width: 1px;
+  height: 0.95em;
+  margin-left: 2px;
+  background: currentColor;
+  vertical-align: text-bottom;
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .pulse-dot,
+  .typing-caret {
+    animation: none;
   }
 }

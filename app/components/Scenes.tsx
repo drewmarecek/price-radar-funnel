@@ -1,4 +1,21 @@
 import Image from "next/image";
+import TypedGlass, { type GlassLine } from "./TypedGlass";
+
+const HERO_MESSAGES: GlassLine[][] = [
+  [
+    { kind: "title", text: "A call comes in after hours" },
+    {
+      kind: "body",
+      text: "We answer, take the address, and reach a technician who is actually awake.",
+    },
+  ],
+  [
+    { kind: "kicker", text: "LIVE CALL" },
+    { kind: "title", text: "Flooded basement" },
+    { kind: "body", text: "14 Oak Street. Water is still running." },
+    { kind: "body", text: "Calling on-call tech. Press 1 if you're awake." },
+  ],
+];
 
 export function HeroScene() {
   return (
@@ -11,21 +28,8 @@ export function HeroScene() {
         className="object-cover object-[center_40%]"
         sizes="(max-width: 920px) 100vw, 920px"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
-      <div className="absolute right-3 bottom-3 left-3 rounded-xl bg-white/92 px-3 py-2.5 text-[#00053D] shadow-sm backdrop-blur sm:right-auto sm:bottom-8 sm:left-10 sm:max-w-sm sm:rounded-2xl sm:p-5">
-        <p className="text-sm font-semibold text-[#00031F]">A call comes in after hours</p>
-        <p className="mt-1 hidden text-sm leading-relaxed sm:block">
-          We answer, take the address, and reach a technician who is actually awake.
-        </p>
-      </div>
-      <div className="absolute top-6 right-6 hidden w-[280px] rounded-2xl bg-white p-4 text-[#00053D] shadow-[0_16px_40px_rgba(0,0,0,0.28)] sm:block">
-        <p className="text-xs font-semibold tracking-wide text-[#0B5CFF]">LIVE CALL</p>
-        <p className="mt-2 text-sm font-semibold text-[#00031F]">Flooded basement</p>
-        <p className="mt-1 text-sm leading-relaxed">14 Oak Street. Water is still running.</p>
-        <div className="mt-4 rounded-xl bg-[#f3f8ff] px-3 py-2 text-sm text-[#00053D]">
-          Calling on-call tech. Press 1 if you&apos;re awake.
-        </div>
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
+      <TypedGlass messages={HERO_MESSAGES} />
     </div>
   );
 }
@@ -41,8 +45,8 @@ export function TryScene() {
         sizes="(max-width: 1024px) 100vw, 560px"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-      <p className="absolute bottom-5 left-5 rounded-full bg-[#5b4bdb] px-3 py-1.5 text-sm font-medium text-white">
-        Pretend a pipe just burst.
+      <p className="absolute bottom-5 left-5 max-w-[calc(100%-2.5rem)] rounded-2xl bg-[#5b4bdb] px-3 py-1.5 text-sm font-medium text-white">
+        Try it yourself, pretend a pipe just burst.
       </p>
     </div>
   );
@@ -141,12 +145,16 @@ export function FeatureScene({ panel }: { panel: keyof typeof PANELS }) {
         className="object-cover"
         sizes="(max-width: 1024px) 100vw, 560px"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-      <div className="absolute right-3 bottom-3 left-3 rounded-xl bg-white px-3 py-2.5 text-[#00053D] shadow-[0_16px_40px_rgba(0,0,0,0.28)] sm:top-10 sm:right-8 sm:bottom-auto sm:left-auto sm:w-[300px] sm:rounded-2xl sm:p-5">
-        <p className="text-xs font-semibold tracking-wide text-[#0B5CFF]">{card.kicker}</p>
-        <p className="mt-1 text-base font-semibold text-[#00031F] sm:mt-2 sm:text-lg">{card.title}</p>
-        <p className="mt-2 hidden text-sm leading-relaxed sm:block">{card.body}</p>
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10" />
+      <TypedGlass
+        key={panel}
+        loop={false}
+        messages={[[
+          { kind: "kicker", text: card.kicker },
+          { kind: "title", text: card.title },
+          { kind: "body", text: card.body },
+        ]]}
+      />
     </div>
   );
 }

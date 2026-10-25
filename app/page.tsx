@@ -4,7 +4,7 @@ import PilotForm, { PilotRoleLink } from "./components/PilotForm";
 import { HeroScene, TryScene, UseScene } from "./components/Scenes";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
-import { BRAND_NAME, CALENDLY_URL, DEMO_PHONE_DISPLAY, SITE_DOMAIN } from "./config";
+import { BRAND_NAME, CALENDLY_URL, DEMO_PHONE_DISPLAY } from "./config";
 import { primaryBtn, secondaryBtn } from "./components/styles";
 
 const BENEFITS = [
@@ -76,11 +76,11 @@ const FAQS = [
   },
   {
     q: "Can an agency offer this under their own name?",
-    a: "Yes. You can run it on one client for 14 days at no charge, then roll it out to the rest of the book at a flat wholesale rate.",
+    a: "Yes. The greeting, the press-1 wake-up, and the job sync run under your brand. Wholesale is $247 a month per client, and you set the retail price. The first client starts with a 14-day pilot.",
   },
   {
     q: "What does the 14-day trial cost?",
-    a: "Nothing, if the night calls aren't handled cleanly. Contractors try it on the line they already publish. Agencies try it on one client.",
+    a: "Contractors are $397 a month after a 14-day pilot, refunded in full if it doesn't catch a job. Agencies try the first client risk-free, then $247 a month per client.",
   },
   {
     q: "Are calls recorded?",
@@ -103,7 +103,7 @@ function Eyebrow({
 }) {
   return (
     <p className={`flex items-center gap-2 text-sm font-medium ${align === "start" ? "justify-start" : "justify-center"} ${light ? "text-[#b4d0f8]" : "text-[#0B5CFF]"}`}>
-      <span className={`h-1.5 w-1.5 rounded-full ${light ? "bg-[#b4d0f8]" : "bg-[#0B5CFF]"}`} aria-hidden />
+      <span className="pulse-dot" aria-hidden />
       {children}
     </p>
   );
@@ -160,11 +160,10 @@ export default function HomePage() {
         <section className="page-pad pt-[clamp(2rem,6vw,5rem)] pb-6">
           <div className="mx-auto w-full max-w-[min(56rem,100%)] text-center">
             <Eyebrow>{BRAND_NAME}</Eyebrow>
-            <p className="mt-3 text-sm text-[#5c6b8a]">{SITE_DOMAIN}</p>
             <h1 className="display mx-auto mt-4 max-w-[min(52rem,100%)] text-[clamp(2rem,4.2vw,3.125rem)] leading-[1.2] text-[#00031F]">
               An after-hours line that turns
               <br className="hidden sm:block" />{" "}
-              emergency calls into booked jobs.
+              emergency calls into booked jobs
             </h1>
             <p className="mx-auto mt-5 max-w-[min(52rem,100%)] text-[0.9375rem] leading-[1.6] text-[#00053D] sm:mt-6 sm:text-base sm:leading-[1.65]">
               <span className="font-medium text-[#0B5CFF]">{BRAND_NAME}</span> answers when
@@ -215,7 +214,7 @@ export default function HomePage() {
             <div>
               <Eyebrow light align="start">Try it yourself</Eyebrow>
               <h2 className="display mt-3 text-left text-[clamp(1.75rem,3vw,2.4rem)] leading-tight">
-                Pretend a pipe just burst.
+                Give our agent a call
               </h2>
               <CallLink
                 source="try"
@@ -268,48 +267,54 @@ export default function HomePage() {
                 Start with 14 days
               </h2>
               <p className="mt-4 text-base leading-relaxed text-[#00053D]">
-                If the night calls aren&apos;t handled cleanly, you don&apos;t pay.
+                If the pilot doesn&apos;t catch a job, you don&apos;t pay.
               </p>
             </div>
             <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-2">
               <article id="contractors" className="overflow-hidden rounded-2xl bg-[#e6f0ff]">
                 <p className="bg-[#00053D] px-6 py-3 text-center text-sm font-medium text-white">
-                  For contractors
+                  Direct Contractors
                 </p>
                 <div className="p-6 sm:p-8">
-                  <p className="text-sm font-medium text-[#00053D]">14-day trial</p>
-                  <p className="display mt-2 text-[clamp(3rem,8vw,3.75rem)] text-[#00031F]">$0</p>
-                  <p className="mt-2 text-sm text-[#00053D]">
-                    if the night calls aren&apos;t handled cleanly
+                  <h3 className="text-lg font-semibold text-[#00031F]">After-Hours &amp; Overflow Line</h3>
+                  <p className="display mt-3 text-[clamp(2.75rem,6vw,3.5rem)] leading-none text-[#00031F]">
+                    $397
+                    <span className="ml-1 font-sans text-lg font-medium tracking-normal">/ month</span>
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[#00053D]">
+                    14-day pilot — 100% refundable if it doesn&apos;t catch a job
                   </p>
                   <PilotRoleLink role="contractor" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-[#00053D] px-5 py-2 text-base font-semibold text-white hover:bg-[#12183a]">
-                    Start the contractor trial
+                    Set up your 14-day pilot
                   </PilotRoleLink>
                   <ul className="mt-8 space-y-3 text-sm leading-relaxed text-[#00053D]">
-                    <li className="flex gap-2"><Check /> 14 days on the line you already advertise.</li>
-                    <li className="flex gap-2"><Check /> Turns on after 5:00 PM, or after four rings.</li>
-                    <li className="flex gap-2"><Check /> Your daytime receptionist stays on the main number.</li>
+                    <li className="flex gap-2"><Check /> Pays for itself on the first saved call. One burst pipe or no-heat job covers a full year.</li>
+                    <li className="flex gap-2"><Check /> Turns on after 5:00 PM or after 4 rings. Your daytime receptionist stays on the main number.</li>
+                    <li className="flex gap-2"><Check /> Press-1 awake check included. It skips a sleeping tech&apos;s voicemail and keeps calling until someone is awake.</li>
                   </ul>
                 </div>
               </article>
 
               <article id="agencies" className="anchor overflow-hidden rounded-2xl bg-[#0B5CFF] text-white">
                 <p className="bg-[#00053D] px-6 py-3 text-center text-sm font-medium">
-                  For agencies
+                  Agency White-Label Partner
                 </p>
                 <div className="p-6 sm:p-8">
-                  <p className="text-sm font-medium text-white/90">One client, under your brand</p>
-                  <p className="display mt-2 text-[clamp(3rem,8vw,3.75rem)]">$0</p>
-                  <p className="mt-2 text-sm text-white/90">
-                    for 14 days, then a flat wholesale rate
+                  <h3 className="text-lg font-semibold">Your Brand. Your Client Roster.</h3>
+                  <p className="display mt-3 text-[clamp(2.75rem,6vw,3.5rem)] leading-none">
+                    $247
+                    <span className="ml-1 font-sans text-lg font-medium tracking-normal">/ month per client</span>
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-white/90">
+                    First flagship client starts with a 14-day risk-free pilot
                   </p>
                   <PilotRoleLink role="agency" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-5 py-2 text-base font-semibold text-[#00053D]">
-                    Try it on one client
+                    Run a pilot on 1 client
                   </PilotRoleLink>
                   <ul className="mt-8 space-y-3 text-sm leading-relaxed text-white">
-                    <li className="flex gap-2"><Check light /> Your name on the greeting. Their office stays as it is.</li>
-                    <li className="flex gap-2"><Check light /> One client, 14 days, at no charge.</li>
-                    <li className="flex gap-2"><Check light /> After that, you set the retail price.</li>
+                    <li className="flex gap-2"><Check light /> Protects your retainer. Clients stop losing after-hours leads and blaming your ads.</li>
+                    <li className="flex gap-2"><Check light /> White-labeled. Your voice, the press-1 wake-up, and a direct sync to ServiceTitan, Housecall Pro, JobNimbus, or GoHighLevel.</li>
+                    <li className="flex gap-2"><Check light /> You set the retail price. Most partners bill $497–$597 a month and keep the margin.</li>
                   </ul>
                 </div>
               </article>
