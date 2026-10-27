@@ -44,7 +44,7 @@ export function PilotRoleLink({
   className?: string;
   children: React.ReactNode;
 }) {
-  const href = `/?role=${role}#book-trial`;
+  const href = `/?role=${role}#start-trial`;
 
   return (
     <a
@@ -55,7 +55,7 @@ export function PilotRoleLink({
         event.preventDefault();
         window.dispatchEvent(new CustomEvent(ROLE_EVENT, { detail: role }));
         window.history.replaceState(null, "", href);
-        document.getElementById("book-trial")?.scrollIntoView({
+        document.getElementById("start-trial")?.scrollIntoView({
           behavior: "smooth",
           block: "start",
         });
@@ -172,8 +172,9 @@ export default function PilotForm() {
   if (status === "sent") {
     return (
       <div
+        id="start-trial"
         role="status"
-        className="rounded-2xl border border-[#e6e8eb] bg-white p-6 shadow-[0_8px_30px_rgba(16,24,40,0.06)]"
+        className="anchor rounded-2xl border border-[#e6e8eb] bg-white p-6 shadow-[0_8px_30px_rgba(16,24,40,0.06)]"
       >
         <p className="display text-2xl text-[#00031F]">Request sent.</p>
         <p className="mt-3 text-sm leading-relaxed text-[#3c4450]">
@@ -186,9 +187,10 @@ export default function PilotForm() {
 
   return (
     <form
+      id="start-trial"
       onSubmit={onSubmit}
       noValidate
-      className="rounded-2xl border border-[#e6e8eb] bg-white p-6 shadow-[0_8px_30px_rgba(16,24,40,0.06)]"
+      className="anchor rounded-2xl border border-[#e6e8eb] bg-white p-6 shadow-[0_8px_30px_rgba(16,24,40,0.06)]"
     >
       <h3 className="display text-2xl text-[#00031F]">Start the 14-day trial</h3>
       <p className="mt-2 text-sm leading-relaxed text-[#5c6570]">

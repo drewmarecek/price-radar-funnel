@@ -214,7 +214,7 @@ export default function HomePage() {
             <div>
               <Eyebrow light align="start">Try it yourself</Eyebrow>
               <h2 className="display mt-3 text-left text-[clamp(1.75rem,3vw,2.4rem)] leading-tight">
-                Give our agent a call
+                Give our agent a call and ask what it can do.
               </h2>
               <CallLink
                 source="try"
